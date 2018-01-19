@@ -6,16 +6,22 @@ base_url = "https://www.hindigeetmala.net"
 year_url = base_url + "/binaca_geetmala_{}.htm"
 meta_data = ["Song Heading", "Singer(s)", "Music Director", "Lyricist", "Movie/Album"]
 
+def get_data_from_track_cell(cell):
+    data = cell.findAll("span", {"itemprop": "name"})
+    if len(data) == 0:
+        return ""
+    return next(data[0].children).strip()
+
 class Song:
     """
     Stores the metadata and lyrics of a song
     """
 
     def __init__(self, track):
-        names = track.findAll("span", {"itemprop": "name"})
+        names = track.findAll("td")[1:-1]
         
         self.song_link = track.findAll("a", {"itemprop": "url"})[0].attrs["href"]
-        self.meta_info = {meta_data[i] : next(names[i].children).strip() 
+        self.meta_info = {meta_data[i] : get_data_from_track_cell(names[i])
                 for i in range(len(meta_data))}
         self.download_lyrics()
 
