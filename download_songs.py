@@ -48,8 +48,9 @@ class BinacaYear:
             song = Song(track)
             self.songs.append(song)
 
-for year in range(1953, 1984):
-    print year
-    by = BinacaYear(year)
-    pickle.dump(by, open("songs/{}.p".format(year), "wb"))
+if __name__ == "__main__":
+    for year in range(1953, 1984):
+        print year
+        by = BinacaYear(year)
+        pickle.dump(by, open("songs/{}.p".format(year), "wb"))
 
